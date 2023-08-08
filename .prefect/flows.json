@@ -1,0 +1,3 @@
+{
+  "main": "app/prefect_tasks.py:main"
+}

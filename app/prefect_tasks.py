@@ -33,9 +33,9 @@ client = storage.Client()
 
 MODEL_REGISTRY_NAME = os.getenv("EXPERIMENT_NAME", "house-price-prediction-model")
 MODEL_SEARCH_ITERATIONS = int(os.getenv("MODEL_SEARCH_ITERATIONS", "60"))
-TRACKING_SERVER_HOST = "34.125.110.54"
+TRACKING_SERVER_HOST = "34.16.191.116"
 TRACKING_SERVER_PORT = "5000"
-DATA_PATH = "/home/mouba/data/day.csv"
+DATA_PATH = "~/data/day.csv"
 EXPERIMENT_NAME = "bike-sharing-regression"
 MODEL_REGISTRY_NAME = "random-forest-regressor"
 MODEL_SEARCH_ITERATIONS = 10
