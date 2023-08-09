@@ -31,9 +31,9 @@ def predict(features):
     return float(preds[0])
 
 
-#app = Flask('ride-prediction')
+app = Flask('ride-prediction')
 
-#@app.route('/predict', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict_endpoint():
     bike_data = request.get_json()
 
@@ -46,6 +46,6 @@ def predict_endpoint():
 
     return jsonify(result)
 
-#if __name__ == "__main__":
-#    app.run(debug=True, host='0.0.0.0', port=9696)
+if __name__ == "__main__":
+    app.run(debug=True, host='0.0.0.0', port=9696)
 

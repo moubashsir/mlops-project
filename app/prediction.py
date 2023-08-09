@@ -1,6 +1,5 @@
 
-#import requests
-import web_service
+import requests
 
 bike_data = {
     'season': 1,
@@ -15,10 +14,7 @@ bike_data = {
     'windspeed': 0.160446
 }
 
-#url = 'http://localhost:9696/predict'
-#response = requests.post(url, json=bike_data)
-#print(response.json())
-
-pred = web_service.predict(bike_data)
-print(pred)
+url = 'http://localhost:9696/predict'
+response = requests.post(url, json=bike_data)
+print(response.json())
 
