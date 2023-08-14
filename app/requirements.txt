@@ -8,3 +8,5 @@ xgboost
 fastparquet
 boto3
 prefect
+pytest
+deepdiff
