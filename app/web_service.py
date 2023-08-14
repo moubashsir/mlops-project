@@ -1,5 +1,3 @@
-
-
 import os
 
 import mlflow
@@ -12,6 +10,8 @@ TRACKING_SERVER_HOST = "34.125.172.55"
 TRACKING_SERVER_PORT = "5000"
 MODEL_NAME = "random-forest-regressor"
 TRACKING_URI=f"http://{TRACKING_SERVER_HOST}:{TRACKING_SERVER_PORT}"
+MLFLOW_ENABLED = False
+RUN_ID = "79934c79a98f4932aade316cce6e61a0"
 
 def load_model_from_registry():
     """
@@ -20,10 +20,15 @@ def load_model_from_registry():
     tracking_uri = TRACKING_URI
     mlflow.set_tracking_uri(tracking_uri)
     model_uri = f"models:/{MODEL_NAME}/latest"
-    loaded_model = mlflow.pyfunc.load_model(model_uri)
-    print("Model loaded from registry")
-
-    return loaded_model
+    
+    gcs_bucket = f"gs://mlflow-assignment-mj/bike-sharing-prediction/3/{RUN_ID}/artifacts/model"
+    
+    if MLFLOW_ENABLED:
+        print("Model loaded from registry")
+        return mlflow.pyfunc.load_model(model_uri)
+    else:
+        print("Model loaded from GCS bucket")
+        return mlflow.pyfunc.load_model(gcs_bucket)
 
 def predict(features):
     model = load_model_from_registry()
@@ -48,4 +53,3 @@ def predict_endpoint():
 
 if __name__ == "__main__":
     app.run(debug=True, host='0.0.0.0', port=9696)
-
