@@ -7,17 +7,17 @@ name: mlops-project
 prefect-version: 2.11.3
 
 # build section allows you to manage and build docker images
-build: null
+build:
 
 # push section allows you to manage if and how this project is uploaded to remote locations
-push: null
+push:
 
 # pull section allows you to provide instructions for cloning this project in remote locations
 pull:
 - prefect.deployments.steps.git_clone:
     repository: https://github.com/moubashsir/mlops-project.git
     branch: main
-    access_token: null
+    access_token:
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
@@ -25,3 +25,14 @@ deployments:
   entrypoint: app/prefect_flows.py:main
   work_pool:
     name: training-pool
+- name: model_training
+  version:
+  tags: []
+  description: Executes the training workflow
+  entrypoint: /home/mouba/mlops-project/app/prefect_flows.py:main
+  parameters: {}
+  work_pool:
+    name: training-pool
+    work_queue_name:
+    job_variables: {}
+  schedule:
