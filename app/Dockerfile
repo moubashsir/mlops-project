@@ -15,15 +15,15 @@
 
 #ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:9696", "web_service:app" ]
 
-FROM prefecthq/prefect:latest 
+FROM python:3.9.12-slim
 
 RUN pip install -U pip
-RUN pip install -U prefect
+RUN pip install pipenv 
 
 WORKDIR /app 
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN pipenv install --system --deploy
 
-CMD python prefect_flows.py
+#RUN prefect server start

@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify
 from google.cloud import storage
 client = storage.Client()
 
-TRACKING_SERVER_HOST = "34.125.172.55"
+TRACKING_SERVER_HOST = "34.125.104.8"
 TRACKING_SERVER_PORT = "5000"
 MODEL_NAME = "random-forest-regressor"
 TRACKING_URI=f"http://{TRACKING_SERVER_HOST}:{TRACKING_SERVER_PORT}"

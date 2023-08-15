@@ -22,6 +22,6 @@ pull:
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
 - name: training_flow
-  entrypoint: app/prefect_tasks.py:main
+  entrypoint: app/prefect_flows.py:main
   work_pool:
     name: training-pool

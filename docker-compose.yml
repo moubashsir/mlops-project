@@ -1,0 +1,46 @@
+version: '3.9'
+
+networks:
+  front-tier:
+  back-tier:
+
+services:
+
+  prefect-server:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: prefect-server
+    environment:
+      - PREFECT_ORION_API_HOST=127.0.0.1
+    expose:
+      - "4200"
+    ports:
+      - "127.0.0.1:4200:4200"
+    command: prefect server start
+    networks:
+      - back-tier
+
+  prefect-flow:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: prefect-flow
+    command: prefect deploy prefect_flows.py:main -n model_training -p training-pool --cron "0 5 * * MON"
+    networks:
+      - back-tier
+
+  prediction-service:
+    build: 
+      context: ./app
+      dockerfile: Dockerfile
+    expose:
+      - "9696"
+    ports:
+      - "9696:9696"
+    command: gunicorn --bind=0.0.0.0:9696 web_service:app
+
+    networks:
+      - back-tier
+
+
