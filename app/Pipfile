@@ -12,6 +12,8 @@ google-cloud-storage = "==2.10.0"
 numpy = "==1.25.1"
 psutil = "==5.9.5"
 gunicorn = "*"
+prefect = "*"
+hyperopt = "*"
 
 [dev-packages]
 deepdiff = "*"

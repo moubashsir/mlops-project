@@ -1,8 +1,8 @@
 from prefect_tasks import *
 
-TRACKING_SERVER_HOST = "34.125.172.55"
+TRACKING_SERVER_HOST = "34.125.104.8"
 TRACKING_SERVER_PORT = "5000"
-DATA_PATH = "~/mlops-project/data/day.csv"
+DATA_PATH = "https://storage.googleapis.com/mlflow-assignment-mj/training_data/day.csv"
 EXPERIMENT_NAME = "bike-sharing-regression"
 MODEL_REGISTRY_NAME = "random-forest-regressor"
 MODEL_SEARCH_ITERATIONS = 10
