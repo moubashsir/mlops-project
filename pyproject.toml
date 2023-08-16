@@ -1,0 +1,22 @@
+[tool.pylint.messages_control]
+
+disable = [
+    "ungrouped-imports",
+    "missing-module-docstring",
+    "too-few-public-methods",
+    "missing-final-newline",
+    "bare-except",
+    "no-name-in-module",
+    "invalid-name",
+    "duplicate-code",
+    "too-many-return-statements", 
+    "wildcard-import", 
+    "unused-import", 
+    "useless-return", 
+    "line-too-long",
+    "unused-wildcard-import", 
+    "too-many-arguments",
+    "unused-variable",
+    "missing-timeout"
+]
+

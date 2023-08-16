@@ -18,6 +18,7 @@ hyperopt = "*"
 [dev-packages]
 deepdiff = "*"
 pytest = "*"
+pylint = "*"
 
 [requires]
 python_version = "3.9"

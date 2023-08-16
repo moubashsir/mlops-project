@@ -21,6 +21,7 @@ app = FastAPI()
 
 
 def load_data(filename):
+    """Load data"""
     df = pd.read_csv(filename, sep=',')
     
     req_column = ['season', 'mnth', 'holiday', 'weekday', 'workingday', 'weathersit','temp', 'atemp', 'hum', 'windspeed', 'prediction']

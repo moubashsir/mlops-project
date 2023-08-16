@@ -15,7 +15,7 @@ RUN_ID = "79934c79a98f4932aade316cce6e61a0"
 
 def load_model_from_registry():
     """
-    Loads the ML model from the MLFlow registry
+    Loads the ML model either from ML flow registry or from GCS bucket
     """
     tracking_uri = TRACKING_URI
     mlflow.set_tracking_uri(tracking_uri)
@@ -31,6 +31,9 @@ def load_model_from_registry():
         return mlflow.pyfunc.load_model(gcs_bucket)
 
 def predict(features):
+    """
+    predict the count based on input features
+    """
     model = load_model_from_registry()
     preds = model.predict(features)
     return float(preds[0])
@@ -40,6 +43,9 @@ app = Flask('ride-prediction')
 
 @app.route('/predict', methods=['POST'])
 def predict_endpoint():
+    """
+    Flask App to get predictions
+    """
     bike_data = request.get_json()
 
     pred = predict(bike_data)

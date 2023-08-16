@@ -6,6 +6,33 @@ networks:
 
 services:
 
+  prefect-server:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: prefect-server
+    environment:
+      - PREFECT_ORION_API_HOST=0.0.0.0
+    expose:
+      - "4200"
+    ports:
+      - "127.0.0.1:4200:4200"
+    command: prefect cloud login -k pnu_3iJwkGncnjUJIRB8cDxK9F15tzrcOH4FTryu
+    networks:
+      - back-tier
+    restart: always
+
+  prefect-flow:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: prefect-flow
+    #command: prefect work-pool create training-pool
+    networks:
+      - back-tier
+    depends_on:
+      - prefect-server
+
   prediction-service:
     build: 
       context: ./app

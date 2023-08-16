@@ -31,6 +31,9 @@ client = storage.Client()
 
 @task(name="Data Loading")
 def load_data(filename):
+    """
+    Loads data
+    """
     df = pd.read_csv(filename, sep=',')
     
     # drop columns which are not required for training
@@ -40,6 +43,9 @@ def load_data(filename):
 
 @task(name="Data Splitting")
 def split_data(df):
+    """
+    Splits data into train and valid
+    """
     df_train, df_val = train_test_split(df, test_size=0.2, random_state=42,
                                         stratify=df[['season', 'weekday']])
     return df_train, df_val
@@ -47,6 +53,9 @@ def split_data(df):
 
 @task(name="Prepare Dictionaries")
 def prepare_dictionaries(df: pd.DataFrame):
+    """
+    Prepares dictionaries
+    """
     features = ['season', 'mnth', 'holiday', 'weekday', 'workingday', 'weathersit',
                         'temp', 'atemp', 'hum', 'windspeed']
     return df[features].to_dict(orient='records')
@@ -54,6 +63,9 @@ def prepare_dictionaries(df: pd.DataFrame):
 
 @task(name="Train Random Forest Model")
 def train_model_rf_search(dict_train, dict_val, y_train, y_val, model_search_iterations, data_path):
+    """
+    Trains RF model
+    """
     mlflow.sklearn.autolog()
 
     def objective(params):
@@ -101,7 +113,9 @@ def train_model_rf_search(dict_train, dict_val, y_train, y_val, model_search_ite
 
 @task(name="Register best model")
 def register_best_model(tracking_uri, experiment_name, model_registry_name):
-    
+    """
+    Registers the best model
+    """
     client = MlflowClient(tracking_uri=tracking_uri)
     
     experiment = client.get_experiment_by_name(experiment_name)
