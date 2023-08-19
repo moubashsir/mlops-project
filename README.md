@@ -61,3 +61,4 @@ First a batch prediction module is created to get predictions from the model to 
 
 Evidently is used for model monitoring along with FastAPI. Prediction drift and data drift is used from Evidently to monitor the model
 
+## 
