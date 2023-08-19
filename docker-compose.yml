@@ -12,31 +12,30 @@ services:
       dockerfile: Dockerfile
     container_name: prefect-server
     environment:
-      - PREFECT_ORION_API_HOST=0.0.0.0
+      TRACKING_SERVER_HOST: "34.16.139.230"
+      TRACKING_SERVER_PORT: "5000"
+      DATA_PATH: "https://storage.googleapis.com/mlflow-assignment-mj/training_data/day.csv"
+      EXPERIMENT_NAME: "bike-sharing-regression"
+      MODEL_REGISTRY_NAME: "random-forest-regressor"
+      MODEL_SEARCH_ITERATIONS: "10"
     expose:
       - "4200"
     ports:
       - "127.0.0.1:4200:4200"
-    command: prefect cloud login -k pnu_3iJwkGncnjUJIRB8cDxK9F15tzrcOH4FTryu
+    command: prefect server start --host=0.0.0.0
     networks:
       - back-tier
-    restart: always
-
-  prefect-flow:
-    build:
-      context: ./app
-      dockerfile: Dockerfile
-    container_name: prefect-flow
-    #command: prefect work-pool create training-pool
-    networks:
-      - back-tier
-    depends_on:
-      - prefect-server
 
   prediction-service:
     build: 
       context: ./app
       dockerfile: Dockerfile
+    environment:
+      RUN_ID: "79934c79a98f4932aade316cce6e61a0"
+      TRACKING_SERVER_HOST: "34.16.139.230"
+      TRACKING_SERVER_PORT: "5000"
+      MODEL_NAME: "random-forest-regressor"
+
     expose:
       - "9696"
     ports:
@@ -50,6 +49,10 @@ services:
     build: 
       context: ./monitoring
       dockerfile: Dockerfile
+    environment:
+      REFERENCE_DATA_PATH: "scored_reference.csv"
+      CURRENT_DATA_PATH: "scored_current.csv"
+      REPORT_PATH: "./dashboards/data_drift.html"
     ports:
       - "8001:8001"
     networks:

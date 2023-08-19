@@ -17,6 +17,16 @@ disable = [
     "unused-wildcard-import", 
     "too-many-arguments",
     "unused-variable",
-    "missing-timeout"
+    "missing-timeout",
+    "no-else-return",
+    "redefined-outer-name"
 ]
 
+[tool.black]
+line-length = 200
+target-version = ['py39']
+skip-string-normalization = true
+
+[tool.isort]
+multi_line_output = 3
+length_sort = true

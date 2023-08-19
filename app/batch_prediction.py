@@ -1,7 +1,8 @@
 import os
 
+import numpy as np
+import pandas as pd
 import mlflow
-from flask import Flask, request, jsonify
 
 from google.cloud import storage
 client = storage.Client()
@@ -12,6 +13,7 @@ MODEL_NAME = "random-forest-regressor"
 TRACKING_URI=f"http://{TRACKING_SERVER_HOST}:{TRACKING_SERVER_PORT}"
 MLFLOW_ENABLED = False
 RUN_ID = "79934c79a98f4932aade316cce6e61a0"
+DATA_PATH = "https://storage.googleapis.com/mlflow-assignment-mj/training_data/day.csv"
 
 
 def load_data(filename):
@@ -37,16 +39,17 @@ def create_synthetic_data(df):
     """
     current_data = pd.DataFrame()
     
-    current_data['season'] = np.random.permutation(raw_ref_data['season'].values)
-    current_data['mnth'] = np.random.permutation(raw_ref_data['mnth'].values)
-    current_data['holiday'] = np.random.permutation(raw_ref_data['holiday'].values)
-    current_data['weekday'] = np.random.permutation(raw_ref_data['weekday'].values)
-    current_data['workingday'] = np.random.permutation(raw_ref_data['workingday'].values)
-    current_data['weathersit'] = np.random.permutation(raw_ref_data['weathersit'].values)
-    current_data['temp'] = np.random.permutation(raw_ref_data['temp'].values)
-    current_data['atemp'] = np.random.permutation(raw_ref_data['atemp'].values)
-    current_data['hum'] = np.random.permutation(raw_ref_data['hum'].values)
-    current_data['windspeed'] = np.random.permutation(raw_ref_data['windspeed'].values)
+    current_data['season'] = np.random.permutation(df['season'].values)
+    current_data['mnth'] = np.random.permutation(df['mnth'].values)
+    current_data['holiday'] = np.random.permutation(df['holiday'].values)
+    current_data['weekday'] = np.random.permutation(df['weekday'].values)
+    current_data['workingday'] = np.random.permutation(df['workingday'].values)
+    current_data['weathersit'] = np.random.permutation(df['weathersit'].values)
+    current_data['temp'] = np.random.permutation(df['temp'].values)
+    current_data['atemp'] = np.random.permutation(df['atemp'].values)
+    current_data['hum'] = np.random.permutation(df['hum'].values)
+    current_data['windspeed'] = np.random.permutation(df['windspeed'].values)
+    return current_data
 
 def load_model_from_registry():
     """
@@ -92,9 +95,7 @@ def main():
     dict_current = prepare_dictionaries(current_data)
     pred_current = loaded_model.predict(dict_current)
     current_data['prediction'] = pred_current
-    
-    logger.info("Batch prediction data created successfully !!!")
-    
+
     raw_ref_data.to_csv("~/mlops-project/monitoring/scored_reference.csv")
     current_data.to_csv("~/mlops-project/monitoring/scored_current.csv")
     
